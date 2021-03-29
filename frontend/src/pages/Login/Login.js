@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Redirect } from "react-router";
 import { users as usersApi } from "../../api";
+import { AuthContext } from "../../context/auth/auth";
+import { useAuth } from "../../hooks/useAuth";
 
-export const Login = ({ user = null, reloadUser }) => {
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [redirect, setRedirect] = useState(false);
+
+  const { login } = useAuth(AuthContext);
+  
 
   const handleForSubmit = (event) => {
     event.preventDefault();
@@ -14,9 +19,7 @@ export const Login = ({ user = null, reloadUser }) => {
     usersApi
       .login(user)
       .then((response) => {
-        localStorage.setItem("user", response.token);
-        console.log(localStorage.getItem("user"));
-        // reloadUser(response.user);
+        login(response);
         setRedirect(true);
         setError("");
       })
@@ -25,21 +28,16 @@ export const Login = ({ user = null, reloadUser }) => {
       });
   };
 
-
-  if (redirect) {
-    return <Redirect to="/" />;
-  }
-
   return (
     <div className={""}>
       <form onSubmit={(e) => handleForSubmit(e)}>
-        <p>Usuario</p>
+        <p>Email</p>
         <input
           required
           variant="outlined"
           size="small"
           type="email"
-          placeholder="Usuario"
+          placeholder="email"
           value={email}
           onChange={(newValue) => setEmail(newValue.target.value)}
         ></input>
@@ -51,9 +49,7 @@ export const Login = ({ user = null, reloadUser }) => {
           value={password}
           onChange={(newValue) => setPassword(newValue.target.value)}
         ></input>
-        <button type="submit">
-          ENTRAR
-        </button>
+        <button type="submit">ENTRAR</button>
       </form>
     </div>
   );

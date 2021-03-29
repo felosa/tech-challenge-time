@@ -10,7 +10,7 @@ const knex = require("../db/knex"); //the connection
 
 const router = express.Router();
 
-// USER SESSIONS
+// USER SESSIONS FINISHED
 router.get("/", [query("userID").optional()], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -25,9 +25,11 @@ router.get("/", [query("userID").optional()], async (req, res) => {
       "sessions.id as sessionID",
       "sessions.startTime",
       "sessions.endTime",
-      "sessions.description"
+      "sessions.description",
+      "sessions.userId"
     )
     .where("sessions.userId", userID)
+    .whereNotNull("sessions.endTime")
     .orderBy("sessions.createdAt", "desc")
     .then((result) => {
       return res.json(result);

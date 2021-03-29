@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { users as usersApi } from "../../api";
 
-export const Login = ({ user = null, reloadUser }) => {
+export const Signup = ({ user = null, reloadUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,13 +24,13 @@ export const Login = ({ user = null, reloadUser }) => {
   return (
     <div className={""}>
       <form onSubmit={(e) => handleForSubmit(e)}>
-        <p>Usuario</p>
+        <p>Email</p>
         <input
           required
           variant="outlined"
           size="small"
           type="email"
-          placeholder="Usuario"
+          placeholder="email"
           value={email}
           onChange={(newValue) => setEmail(newValue.target.value)}
         ></input>

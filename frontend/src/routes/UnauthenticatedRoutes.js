@@ -6,13 +6,11 @@ import {
   Redirect,
 } from "react-router-dom";
 import Login from "../pages/Login";
-import NotFound from "../pages/Not-Found";
+import Signup from "../pages/Signup";
 
 export const UnauthenticatedRoutes = ({ isLoggedIn }) => (
-  <Router basename="/">
-    <Switch>
-      <Route exact path={["/", "/login"]} component={Login} />
-      <Route path="*" component={NotFound} />
-    </Switch>
-  </Router>
+  <>
+    <Route exact path={["/"]} component={Login} />
+    <Route exact path={["/signup"]} component={Signup} />
+  </>
 );

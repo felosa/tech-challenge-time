@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SingleTimer from "./SingleTimer.js";
 import { sessions as sessionsAPI } from "../../api";
+import SingleTimer from "../../components/SingleTimer";
 
 export function CurrentSessions() {
   const [sessions, setSessions] = useState([]);
@@ -18,6 +18,7 @@ export function CurrentSessions() {
         sessions.map((session, index) => {
           return <SingleTimer key={index} session={session}></SingleTimer>;
         })}
+      {/* Posibility to track more than 1 session at the same time */}
       <SingleTimer></SingleTimer>
     </>
   );

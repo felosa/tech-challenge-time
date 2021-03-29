@@ -1,17 +1,6 @@
 import { useEffect, useState } from "react";
 import { sessions as sessionsAPI } from "../api";
-
-function msToTime(duration) {
-  var milliseconds = parseInt((duration % 1000) / 100),
-    seconds = Math.floor((duration / 1000) % 60),
-    minutes = Math.floor((duration / (1000 * 60)) % 60),
-    hours = Math.floor(duration / (1000 * 60 * 60));
-  hours = hours < 10 ? "0" + hours : hours;
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  seconds = seconds < 10 ? "0" + seconds : seconds;
-
-  return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-}
+import msToTime from "../utils/msToTime";
 
 export const useTimer = (startTime = null, sessionID = null) => {
   const [timer, setTimer] = useState(null);
@@ -20,7 +9,7 @@ export const useTimer = (startTime = null, sessionID = null) => {
     if (startTime !== null) {
       setInterval(() => {
         setTimer(new Date() - new Date(startTime));
-      }, 100);
+      }, 1000);
     } else {
       setTimer("00:00:00");
     }
@@ -38,9 +27,9 @@ export const useTimer = (startTime = null, sessionID = null) => {
     return;
   };
 
-  const stopTimer = (sessionID) => {
+  const stopTimer = (sessionID, endTime) => {
     const params = {
-      endTime: new Date(),
+      endTime,
     };
     sessionsAPI
       .endSession(params, sessionID)
