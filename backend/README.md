@@ -3,44 +3,40 @@ INSTALL API.
 1. Clone the repository.
 2. Install dependencies.
    $ npm install
-3. Create new database called prodcuts-crud.
-4. Change params in knexfile.js
-5. Run migrations and seed.
+3. Create new database called time-tracker.
+4. Create .env with your environment variables:
+Example:
+   DB_PASS=password
+   DB_HOST=127.0.0.1
+   DB_USER=user
+5. Run migrations.
    $ knex migrate:latest
-   $ knex seed:run
 6. Run the app with nodemon.
    $ npm run dev
 
 END POINTS
 
-List all the products:
+List all the sessions:
 
-GET: http://localhost:8000/api/products
+GET: http://localhost:8000/api/sessions
 
-Create a new product:
+Start a new session:
 
-POST: http://localhost:8000/api/products
-
-    The body should contain the object with this properties:
-    name - String
-    type - String
-    price - Number
-    expiryDate - Date
-    description - String
-    country - String
-
-Edit a product
-
-POST: http://localhost:8000/api/products/:ID
+POST: http://localhost:8000/api/sessions
 
     The body should contain the object with this properties:
-    name - String
-    type - String
-    price - Number
-    expiryDate - Date
     description - String
-    country - String
+    startTime - Date
+    userID - ID
 
-Delete a product
+STOP a session
 
-DELETE: http://localhost:8000/api/products/:ID
+POST: http://localhost:8000/api/sessions/:ID
+
+    The body should contain the object with this properties:
+    endTime - String
+    type - Date
+
+Delete a session
+
+DELETE: http://localhost:8000/api/sessions/:ID

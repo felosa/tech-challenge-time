@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/api/users", sessions);
+app.use("/api/users", users);
 app.use("/api/sessions", sessions);
 
 // catch 404 and forward to error handler
