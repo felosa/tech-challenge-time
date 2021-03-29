@@ -57,12 +57,14 @@ router.post("/login", (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   let loadedUser;
-
+  console.log(req.body);
+  console.log(email, password);
   knex("users")
     .select("users.id as userID", "users.email", "users.password")
     .where("users.email", email)
     .first()
     .then(async (user) => {
+      console.log(user, "user");
       if (!user) {
         const error = new Error("A user with this email could not be found.");
         error.statusCode = 401;
@@ -101,7 +103,7 @@ router.post("/login", (req, res, next) => {
 });
 
 // CHECK IF IS ALREADY LOGED IN
-router.get("/isLoged/:token", (req, res, next) => {
+router.get("/isLogged/:token", (req, res, next) => {
   // check header or url parameters or post parameters for token
   var token = req.params.token || req.query.token;
 
@@ -122,23 +124,23 @@ router.get("/isLoged/:token", (req, res, next) => {
     //return user using the id from w/in JWTToken
     knex("users")
       .select("users.id as userID", "users.email", "users.password")
-      .where("users.id", user.userID)
+      .where("users.id", user.userId)
       .first()
       .then(async (user) => {
         console.log(user, "este es el user");
-
+        const { userID, email } = user;
         // user = utils.getCleanUser(user);
         //Note: you can renew token by creating new token(i.e.
         //refresh it)w/ new expiration time at this point, but I’m
         //passing the old token back.
         // var token = utils.generateToken(user);
         res.json({
-          user: user,
+          user: { userID, email },
           token: token,
         });
       })
       .catch((err) => {
-        res.json({ err: 'NO USER LOGGED' });
+        res.json({ err: "NO USER LOGGED" });
       });
   });
 });

@@ -21,6 +21,12 @@ router.get("/", [query("userID").optional()], async (req, res) => {
 
   return knex
     .table("sessions")
+    .select(
+      "sessions.id as sessionID",
+      "sessions.startTime",
+      "sessions.endTime",
+      "sessions.description"
+    )
     .where("sessions.userId", userID)
     .orderBy("sessions.createdAt", "desc")
     .then((result) => {
@@ -30,6 +36,38 @@ router.get("/", [query("userID").optional()], async (req, res) => {
       return res.json(err);
     });
 });
+
+// USER SESSIONS
+router.get(
+  "/active-sessions",
+  [query("userID").optional()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let { userID = null } = req.query;
+    console.log(userID, "user");
+    return knex
+      .table("sessions")
+      .select(
+        "sessions.id as sessionID",
+        "sessions.startTime",
+        "sessions.endTime",
+        "sessions.description"
+      )
+      .where("sessions.userId", userID)
+      .whereNull("sessions.endTime")
+      .orderBy("sessions.createdAt", "desc")
+      .then((result) => {
+        return res.json(result);
+      })
+      .catch((err) => {
+        return res.json(err);
+      });
+  }
+);
 
 // START SESSION
 router.post(
@@ -42,7 +80,7 @@ router.post(
     }
 
     const data = matchedData(req, { includeOptionals: true });
-
+    console.log(data, "data a guardar");
     knex("sessions")
       .insert({
         description: data.description,
