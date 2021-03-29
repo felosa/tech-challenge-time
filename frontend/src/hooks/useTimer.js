@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { sessions as sessionsAPI } from "../api";
+import { AuthContext } from "../context/auth/auth";
 import msToTime from "../utils/msToTime";
 
 export const useTimer = (startTime = null, sessionID = null) => {
   const [timer, setTimer] = useState(null);
+
+  const { user } = useContext(AuthContext);
+
+  console.log(user, "user en time hook");
 
   useEffect(() => {
     if (startTime !== null) {
@@ -15,29 +20,27 @@ export const useTimer = (startTime = null, sessionID = null) => {
     }
   }, []);
 
-  const startTimer = (description, userID) => {
+  const startTimer = async (description, userID) => {
     const params = {
       description,
       startTime: new Date(),
-      userID: 2,
+      userID: user.userID,
     };
-    sessionsAPI.startSession(params).then((result) => {
-      console.log(result);
+    await sessionsAPI.startSession(params).then((result) => {
+      return result;
     });
-    return;
   };
 
-  const stopTimer = (sessionID, endTime) => {
+  const stopTimer = async (sessionID, endTime) => {
     const params = {
       endTime,
     };
-    sessionsAPI
+    await sessionsAPI
       .endSession(params, sessionID)
       .then((result) => {
-        console.log(result);
+        return result;
       })
       .catch((err) => console.log(err));
-    return;
   };
   const showCurrentTime = () =>
     startTime === null ? "00:00:00" : msToTime(timer);

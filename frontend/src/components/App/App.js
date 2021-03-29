@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Link, BrowserRouter as Router, Switch } from "react-router-dom";
-import { users as usersAPI } from "../../api";
+import { Switch } from "react-router-dom";
 import { AuthProvider } from "../../context/auth/auth";
 import { useAuth } from "../../hooks/useAuth";
 import { AuthenticatedRoutes } from "../../routes/AuthenticatedRoutes";
 import { UnauthenticatedRoutes } from "../../routes/UnauthenticatedRoutes";
+import Nav from "../Nav";
 import "./App.css";
 
 export function App() {
-  const { user, login, logout, loading } = useAuth();
-  console.log(user, "user");
+  const { user, login, loading, logout } = useAuth();
+
+  console.log({ user, login, loading, logout }, "en App");
+
   if (loading) {
     return <div>Loading</div>;
   }
   return (
     <div className="App">
-      <AuthProvider value={{ user, login }}>
+      <AuthProvider value={{ user, login, logout }}>
         <Switch>
           {user ? (
             <>
-              <button
-                onClick={() => {
-                  logout();
-                }}
-              >
-                Log out
-              </button>
-              <Link to="/">TRACK</Link>
-              <Link to="/finished-sessions">FInished</Link>
+              <Nav></Nav>
               <AuthenticatedRoutes></AuthenticatedRoutes>
             </>
           ) : (

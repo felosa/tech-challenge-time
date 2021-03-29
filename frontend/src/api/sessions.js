@@ -11,6 +11,7 @@ class SessionApi {
 
   getAll = ({
     userID = null,
+    criteria = "day",
     orderBy = "name",
     orderDir = "asc",
     page = 1,
@@ -18,7 +19,7 @@ class SessionApi {
   } = {}) => {
     return this.service
       .get(``, {
-        params: { userID, orderBy, orderDir, page, perPage },
+        params: { userID, criteria, orderBy, orderDir, page, perPage },
       })
       .then((response) => response.data)
       .catch((err) => console.error(err));

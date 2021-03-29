@@ -43,7 +43,20 @@ router.post("/", [body("email"), body("password")], (req, res) => {
           updatedAt: new Date(),
         })
         .then(([newID]) => {
-          return res.json({ newID });
+          const loadedUser = {
+            userID: newID,
+            email: data.email,
+            password: hash,
+          };
+          const token = jwt.sign(
+            {
+              email: data.email,
+              userId: newID,
+            },
+            "secretWordForPento",
+            { expiresIn: "3h" }
+          );
+          return res.json({ token: token, user: loadedUser });
         })
         .catch((err) => {
           return res.status(500).send(err);
@@ -57,8 +70,6 @@ router.post("/login", (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   let loadedUser;
-  console.log(req.body);
-  console.log(email, password);
   knex("users")
     .select("users.id as userID", "users.email", "users.password")
     .where("users.email", email)
@@ -72,7 +83,7 @@ router.post("/login", (req, res, next) => {
       }
 
       loadedUser = user;
-      var hash = user.password;
+      const hash = user.password;
       //   hash = hash.replace(/^\$2y(.+)$/i, "$2a$1");
       return bcrypt.compare(password, hash);
     })
@@ -105,7 +116,7 @@ router.post("/login", (req, res, next) => {
 // CHECK IF IS ALREADY LOGED IN
 router.get("/isLogged/:token", (req, res, next) => {
   // check header or url parameters or post parameters for token
-  var token = req.params.token || req.query.token;
+  const token = req.params.token || req.query.token;
 
   console.log(token, "viene el token");
   if (!token) {
@@ -120,7 +131,6 @@ router.get("/isLogged/:token", (req, res, next) => {
       });
     }
 
-    console.log(user, "user");
     //return user using the id from w/in JWTToken
     knex("users")
       .select("users.id as userID", "users.email", "users.password")

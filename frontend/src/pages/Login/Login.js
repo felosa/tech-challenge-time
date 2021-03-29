@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import { users as usersApi } from "../../api";
 import { AuthContext } from "../../context/auth/auth";
 import { useAuth } from "../../hooks/useAuth";
@@ -10,8 +11,7 @@ export const Login = () => {
   const [error, setError] = useState("");
   const [redirect, setRedirect] = useState(false);
 
-  const { login } = useAuth(AuthContext);
-  
+  const { login } = useContext(AuthContext);
 
   const handleForSubmit = (event) => {
     event.preventDefault();
@@ -51,6 +51,7 @@ export const Login = () => {
         ></input>
         <button type="submit">ENTRAR</button>
       </form>
+      <Link to="/signup">Or signup</Link>
     </div>
   );
 };

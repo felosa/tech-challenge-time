@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import { users as usersApi } from "../../api";
+import { AuthContext } from "../../context/auth/auth";
 
-export const Signup = ({ user = null, reloadUser }) => {
+export const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [redirect, setRedirect] = useState(false);
+
+  const { login } = useContext(AuthContext);
 
   const handleForSubmit = (event) => {
     event.preventDefault();
@@ -12,8 +17,8 @@ export const Signup = ({ user = null, reloadUser }) => {
     usersApi
       .signup(user)
       .then((response) => {
-        localStorage.setItem("user", response.token);
-        reloadUser(response.user);
+        login(response);
+        setRedirect(true);
         setError("");
       })
       .catch((err) => {
@@ -21,8 +26,12 @@ export const Signup = ({ user = null, reloadUser }) => {
       });
   };
 
+  if (redirect) {
+    return <Redirect to="/"></Redirect>;
+  }
+
   return (
-    <div className={""}>
+    <div className="">
       <form onSubmit={(e) => handleForSubmit(e)}>
         <p>Email</p>
         <input
@@ -44,6 +53,7 @@ export const Signup = ({ user = null, reloadUser }) => {
         ></input>
         <button type="submit">CREATE</button>
       </form>
+      <Link to="/">Or Sign in</Link>
     </div>
   );
 };

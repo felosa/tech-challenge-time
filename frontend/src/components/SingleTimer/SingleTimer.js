@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useTimer } from "../../hooks/useTimer";
 import Modal from "../Modal";
+import "./SingleTimer.css";
 
-export const SingleTimer = ({ session = { startTime: null } }) => {
+export const SingleTimer = ({
+  session = { startTime: null },
+  fetchSessions = () => {},
+}) => {
   const { startTime = null, sessionID = null, description } = session;
   const [endTime, setEndTime] = useState(null);
   const [open, setOpen] = useState(false);
-
   const [input, setInput] = useState("");
 
   const { showCurrentTime, startTimer, stopTimer } = useTimer(
@@ -14,29 +17,37 @@ export const SingleTimer = ({ session = { startTime: null } }) => {
     sessionID
   );
 
-  const handleShowFinishModal = () => {
+  const handleShowFinishModal = async () => {
     const finishTime = new Date();
-    stopTimer(sessionID, finishTime);
+    await stopTimer(sessionID, finishTime);
     setEndTime(finishTime);
     setOpen(true);
   };
 
   return (
-    <div className="App">
+    <div className="single-timer-container">
       <Modal
         open={open}
         setOpen={setOpen}
         startTime={startTime}
         endTime={endTime}
         description={description}
+        fetchSessions={fetchSessions}
       ></Modal>
       {startTime !== null ? (
         <>
           {endTime ? null : (
             <>
               <p>Session: {description}</p>
-              <p>Time: {showCurrentTime()}</p>
-              <button onClick={() => handleShowFinishModal()}>STOP</button>
+              <h3>Time: {showCurrentTime()}</h3>
+              <button
+                onClick={() => {
+                  handleShowFinishModal();
+                  fetchSessions();
+                }}
+              >
+                STOP
+              </button>
             </>
           )}
         </>
@@ -55,8 +66,20 @@ export const SingleTimer = ({ session = { startTime: null } }) => {
               }}
             />
           </label>
-          <p>{showCurrentTime()}</p>
-          <button onClick={() => startTimer(input, 2)}>START</button>
+          <h3>{showCurrentTime()}</h3>
+          {input === "" ? (
+            <p>You need a name for your session before start</p>
+          ) : null}
+          <button
+            disabled={input === ""}
+            onClick={async () => {
+              await startTimer(input, 2);
+              setInput("");
+              fetchSessions();
+            }}
+          >
+            START
+          </button>
         </>
       )}
     </div>

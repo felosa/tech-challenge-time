@@ -7,9 +7,6 @@ export const useAuth = () => {
   const [loading, setloading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      setUser(user);
-    }
     const token = localStorage.getItem("user") || "";
     console.log(token, "token");
     if (token !== "") {
@@ -33,8 +30,10 @@ export const useAuth = () => {
   const login = (res) => {
     if (res.token === undefined) return;
     localStorage.setItem("user", res.token);
+    console.log(res.user, "user viene de login");
     setUser(res.user);
   };
+  
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
