@@ -8,12 +8,9 @@ export const Nav = () => {
   const { logout } = useContext(AuthContext);
 
   const handleLogout = () => {
-    console.log("hola");
     setRedirect(true);
     logout();
   };
-
-  console.log(redirect, "redirct logut");
 
   if (redirect) {
     <Redirect to="/"></Redirect>;
