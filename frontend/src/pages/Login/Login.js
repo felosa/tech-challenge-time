@@ -9,7 +9,6 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [redirect, setRedirect] = useState(false);
 
   const { login } = useContext(AuthContext);
 
@@ -20,11 +19,9 @@ export const Login = () => {
       .login(user)
       .then((response) => {
         login(response);
-        setRedirect(true);
-        setError("");
       })
       .catch((err) => {
-        setError("Usuario o contraseña incorrectos");
+        setError("Email or password are not correct");
       });
   };
 
@@ -50,6 +47,7 @@ export const Login = () => {
           onChange={(newValue) => setPassword(newValue.target.value)}
         ></input>
         <button type="submit">ENTRAR</button>
+        <p>{error}</p>
       </form>
       <Link to="/signup">Or signup</Link>
     </div>

@@ -8,8 +8,6 @@ export const useTimer = (startTime = null, sessionID = null) => {
 
   const { user } = useContext(AuthContext);
 
-  console.log(user, "user en time hook");
-
   useEffect(() => {
     if (startTime !== null) {
       setInterval(() => {

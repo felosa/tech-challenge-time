@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { sessions as sessionsAPI } from "../../api";
-import FinishedSession from "../../components/FinishedSession";
 import Stats from "../../components/Stats";
 import Table from "../../components/Table";
 import { AuthContext } from "../../context/auth/auth";
@@ -38,7 +37,7 @@ export function FinishedSessions() {
   return (
     <>
       <div>
-        <label>Category</label>
+        <label>PERIOD</label>
         <select
           name="categories"
           id="categories"

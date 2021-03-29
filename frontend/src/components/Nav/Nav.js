@@ -4,10 +4,18 @@ import { AuthContext } from "../../context/auth/auth";
 import "./Nav.css";
 
 export const Nav = () => {
-  const [loginRedirect, setLoginRedirect] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const { logout } = useContext(AuthContext);
 
-  if (loginRedirect) {
+  const handleLogout = () => {
+    console.log("hola");
+    setRedirect(true);
+    logout();
+  };
+
+  console.log(redirect, "redirct logut");
+
+  if (redirect) {
     <Redirect to="/"></Redirect>;
   }
   return (
@@ -16,8 +24,7 @@ export const Nav = () => {
       <Link to="/finished-sessions">My Sessions</Link>
       <button
         onClick={() => {
-          logout();
-          setLoginRedirect(true);
+          handleLogout();
         }}
       >
         Log out

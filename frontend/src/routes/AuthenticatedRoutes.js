@@ -1,9 +1,6 @@
-import React from "react";
 import { Route } from "react-router-dom";
 import { CurrentSessions } from "../pages/CurrentSessions/CurrentSessions";
 import FinishedSessions from "../pages/FinishedSessions";
-
-console.log("esta entrando aqui");
 
 export const AuthenticatedRoutes = () => (
   <>

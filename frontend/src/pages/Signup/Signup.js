@@ -17,8 +17,8 @@ export const Signup = () => {
     usersApi
       .signup(user)
       .then((response) => {
-        login(response);
         setRedirect(true);
+        login(response);
         setError("");
       })
       .catch((err) => {

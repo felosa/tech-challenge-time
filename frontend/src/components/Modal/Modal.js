@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
 import msToTime from "../../utils/msToTime";
+import LinkButton from "../styles/LinkButton";
+import Button from "../styles/LinkButton";
 import "./Modal.css";
 
 export const Modal = ({
@@ -24,9 +27,11 @@ export const Modal = ({
           fetchSessions();
         }}
       >
-        Close
+        New track
       </button>
-      <button onClick={() => setOpen(false)}>Go to my tracks</button>
+      <button>
+        <Link to="/finished-sessions">Go to my sessions</Link>
+      </button>
     </div>
   );
 };

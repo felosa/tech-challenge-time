@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTimer } from "../../hooks/useTimer";
+import msToTime from "../../utils/msToTime";
 import Modal from "../Modal";
 import "./SingleTimer.css";
 
@@ -36,7 +37,20 @@ export const SingleTimer = ({
       ></Modal>
       {startTime !== null ? (
         <>
-          {endTime ? null : (
+          {endTime ? (
+            <>
+              <p>Session: {description}</p>
+              <h3>Time: {msToTime(new Date(endTime) - new Date(startTime))}</h3>
+              <button
+                onClick={() => {
+                  handleShowFinishModal();
+                  fetchSessions();
+                }}
+              >
+                STOP
+              </button>
+            </>
+          ) : (
             <>
               <p>Session: {description}</p>
               <h3>Time: {showCurrentTime()}</h3>

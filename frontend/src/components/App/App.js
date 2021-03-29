@@ -10,8 +10,6 @@ import "./App.css";
 export function App() {
   const { user, login, loading, logout } = useAuth();
 
-  console.log({ user, login, loading, logout }, "en App");
-
   if (loading) {
     return <div>Loading</div>;
   }
