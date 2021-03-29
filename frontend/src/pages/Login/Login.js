@@ -1,16 +1,15 @@
 import React, { useContext, useState } from "react";
-import { Redirect } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { users as usersApi } from "../../api";
 import { AuthContext } from "../../context/auth/auth";
-import { useAuth } from "../../hooks/useAuth";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
-  const { login } = useContext(AuthContext);
+  const { login, user } = useContext(AuthContext);
 
   const handleForSubmit = (event) => {
     event.preventDefault();
@@ -19,11 +18,16 @@ export const Login = () => {
       .login(user)
       .then((response) => {
         login(response);
+        setRedirect(true);
       })
       .catch((err) => {
-        setError("Email or password are not correct");
+        setError("Email or password is not correct");
       });
   };
+
+  if (redirect) {
+    return <Redirect to="/current-sessions" />;
+  }
 
   return (
     <div className={""}>
@@ -46,10 +50,10 @@ export const Login = () => {
           value={password}
           onChange={(newValue) => setPassword(newValue.target.value)}
         ></input>
-        <button type="submit">ENTRAR</button>
+        <button type="submit">ENTER</button>
         <p>{error}</p>
       </form>
-      <Link to="/signup">Or signup</Link>
+      <Link to="/signup">Or Sign Up</Link>
     </div>
   );
 };

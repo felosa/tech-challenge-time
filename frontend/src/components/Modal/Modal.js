@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import msToTime from "../../utils/msToTime";
-import LinkButton from "../styles/LinkButton";
-import Button from "../styles/LinkButton";
 import "./Modal.css";
 
 export const Modal = ({

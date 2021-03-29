@@ -17,17 +17,17 @@ export const Signup = () => {
     usersApi
       .signup(user)
       .then((response) => {
-        setRedirect(true);
         login(response);
+        setRedirect(true);
         setError("");
       })
       .catch((err) => {
-        setError("Usuario o contraseña incorrectos");
+        setError("Email or password is not correct");
       });
   };
 
   if (redirect) {
-    return <Redirect to="/"></Redirect>;
+    return <Redirect to="/current-sessions" />;
   }
 
   return (
@@ -53,7 +53,8 @@ export const Signup = () => {
         ></input>
         <button type="submit">CREATE</button>
       </form>
-      <Link to="/">Or Sign in</Link>
+      <p>{error}</p>
+      <Link to="/">Or Sign In</Link>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { sessions as sessionsAPI } from "../api";
 import { AuthContext } from "../context/auth/auth";
 import msToTime from "../utils/msToTime";
 
-export const useTimer = (startTime = null, sessionID = null) => {
+export const useTimer = (startTime = null) => {
   const [timer, setTimer] = useState(null);
 
   const { user } = useContext(AuthContext);
@@ -18,7 +18,7 @@ export const useTimer = (startTime = null, sessionID = null) => {
     }
   }, []);
 
-  const startTimer = async (description, userID) => {
+  const startTimer = async (description) => {
     const params = {
       description,
       startTime: new Date(),
@@ -40,6 +40,7 @@ export const useTimer = (startTime = null, sessionID = null) => {
       })
       .catch((err) => console.log(err));
   };
+  
   const showCurrentTime = () =>
     startTime === null ? "00:00:00" : msToTime(timer);
 

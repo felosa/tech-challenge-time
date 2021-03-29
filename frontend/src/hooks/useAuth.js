@@ -28,7 +28,7 @@ export const useAuth = () => {
     localStorage.setItem("user", res.token);
     setUser(res.user);
   };
-  
+
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);

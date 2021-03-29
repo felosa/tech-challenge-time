@@ -8,24 +8,19 @@ export const Nav = () => {
   const { logout } = useContext(AuthContext);
 
   const handleLogout = () => {
-    setRedirect(true);
     logout();
+    setRedirect(true);
   };
 
   if (redirect) {
-    <Redirect to="/"></Redirect>;
+    return <Redirect to="/"></Redirect>;
   }
+
   return (
     <div className="nav-container">
-      <Link to="/">Current Sessions</Link>
+      <Link to="/current-sessions">Current Sessions</Link>
       <Link to="/finished-sessions">My Sessions</Link>
-      <button
-        onClick={() => {
-          handleLogout();
-        }}
-      >
-        Log out
-      </button>
+      <button onClick={handleLogout}>Log out</button>
     </div>
   );
 };

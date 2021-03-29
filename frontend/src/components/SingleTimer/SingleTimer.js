@@ -13,10 +13,7 @@ export const SingleTimer = ({
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
 
-  const { showCurrentTime, startTimer, stopTimer } = useTimer(
-    startTime,
-    sessionID
-  );
+  const { showCurrentTime, startTimer, stopTimer } = useTimer(startTime);
 
   const handleShowFinishModal = async () => {
     const finishTime = new Date();
@@ -68,12 +65,12 @@ export const SingleTimer = ({
       ) : (
         <>
           <label htmlFor="name">
-            Session Name
+            Session:{" "}
             <input
               type="text"
               id="name"
               name="name"
-              placeholder="Session Name"
+              placeholder="Eg. Morning run"
               value={input}
               onChange={(e) => {
                 setInput(e.target.value);
@@ -81,9 +78,7 @@ export const SingleTimer = ({
             />
           </label>
           <h3>{showCurrentTime()}</h3>
-          {input === "" ? (
-            <p>You need a name for your session before start</p>
-          ) : null}
+          {input === "" ? <p>Name your session before you begin</p> : null}
           <button
             disabled={input === ""}
             onClick={async () => {
