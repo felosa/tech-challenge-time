@@ -1,5 +1,7 @@
 # INSTALLATION
 
+Clone the repository.
+
 Frontend and backend run separately.
 
 For the instruccions on how to install them, go to the respective folder and see the Readme.

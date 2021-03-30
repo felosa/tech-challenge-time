@@ -1,6 +1,6 @@
 INSTALL API.
 
-1. Clone the repository.
+1. Go to the backend folder.
 2. Install dependencies.
    $ npm install
 3. Create new database called time-tracker.
