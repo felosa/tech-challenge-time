@@ -1,8 +1,11 @@
+# INSTALLATION
+
+Frontend and backend run separately.
+
+For the instruccions on how to install them, go to the respective folder and see the Readme.
+
+
 # Pento tech challenge
-
-Thanks for taking the time to do our tech challenge. 
-
-The challenge is to build a small full stack web app, that can help a freelancer track their time.
 
 It should satisfy these user stories:
 

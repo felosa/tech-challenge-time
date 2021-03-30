@@ -11,47 +11,51 @@ const moment = require("moment");
 const router = express.Router();
 
 // USER SESSIONS FINISHED
-router.get("/", [query("userID").optional()], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
+router.get(
+  "/",
+  [query("userID").optional(), query("criteria").optional()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
 
-  const { userID = null, criteria = "day" } = req.query;
+    const { userID = null, criteria = "day" } = req.query;
 
-  return knex
-    .table("sessions")
-    .select(
-      "sessions.id as sessionID",
-      "sessions.startTime",
-      "sessions.endTime",
-      "sessions.description",
-      "sessions.userId"
-    )
-    .where("sessions.userId", userID)
-    .whereNotNull("sessions.endTime")
-    .orderBy("sessions.createdAt", "desc")
-    .then((result) => {
-      const filteredResult = result.filter((session) => {
-        if (criteria === "day") {
-          return (
-            moment(session.startTime).format("YYYY-MM-DD") ==
-            moment().format("YYYY-MM-DD")
-          );
-        }
-        if (criteria === "week") {
-          return moment().diff(moment(session.startTime), "days") <= 7;
-        }
-        if (criteria === "month") {
-          return moment().diff(moment(session.startTime), "days") <= 30;
-        }
+    return knex
+      .table("sessions")
+      .select(
+        "sessions.id as sessionID",
+        "sessions.startTime",
+        "sessions.endTime",
+        "sessions.description",
+        "sessions.userId"
+      )
+      .where("sessions.userId", userID)
+      .whereNotNull("sessions.endTime")
+      .orderBy("sessions.createdAt", "desc")
+      .then((result) => {
+        const filteredResult = result.filter((session) => {
+          if (criteria === "day") {
+            return (
+              moment(session.startTime).format("YYYY-MM-DD") ==
+              moment().format("YYYY-MM-DD")
+            );
+          }
+          if (criteria === "week") {
+            return moment().diff(moment(session.startTime), "days") <= 7;
+          }
+          if (criteria === "month") {
+            return moment().diff(moment(session.startTime), "days") <= 30;
+          }
+        });
+        return res.json(filteredResult);
+      })
+      .catch((err) => {
+        return res.json(err);
       });
-      return res.json(filteredResult);
-    })
-    .catch((err) => {
-      return res.json(err);
-    });
-});
+  }
+);
 
 // USER SESSIONS
 router.get(
