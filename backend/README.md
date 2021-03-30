@@ -67,7 +67,7 @@ POST: http://localhost:8000/api/users/login
 
 Return user from token
 
-GET: http://localhost:8000/api/isLogged/:token
+GET: http://localhost:8000/api/users/isLogged/:token
 
 
 

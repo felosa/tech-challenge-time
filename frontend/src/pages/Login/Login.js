@@ -9,7 +9,7 @@ export const Login = () => {
   const [error, setError] = useState("");
   const [redirect, setRedirect] = useState(false);
 
-  const { login, user } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const handleForSubmit = (event) => {
     event.preventDefault();
@@ -31,6 +31,7 @@ export const Login = () => {
 
   return (
     <div className={""}>
+      <h3>Login</h3>
       <form onSubmit={(e) => handleForSubmit(e)}>
         <p>Email</p>
         <input

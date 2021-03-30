@@ -32,6 +32,7 @@ export const Signup = () => {
 
   return (
     <div className="">
+      <h3>Sign Up</h3>
       <form onSubmit={(e) => handleForSubmit(e)}>
         <p>Email</p>
         <input
@@ -54,7 +55,7 @@ export const Signup = () => {
         <button type="submit">CREATE</button>
       </form>
       <p>{error}</p>
-      <Link to="/">Or Sign In</Link>
+      <Link to="/">Or Login</Link>
     </div>
   );
 };

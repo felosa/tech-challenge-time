@@ -40,10 +40,6 @@ const Routes = () => {
         />
 
         <Route exact path="/signup" component={Signup} />
-        {/* <Route exact path={['/', '/login']} component={Login} />
-      <PrivateRoute exact path="/list" component={UserList} />
-      <PrivateRoute exact path="/detail" component={Detail} />
-      <Route path="*" component={NotFound} /> */}
       </Switch>
     </Router>
   );

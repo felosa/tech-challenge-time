@@ -34,7 +34,6 @@ router.post("/", [body("email"), body("password")], (req, res) => {
 
         reject(err);
       }
-      console.log(data.email, hash);
       knex("users")
         .insert({
           email: data.email,
@@ -75,7 +74,6 @@ router.post("/login", (req, res, next) => {
     .where("users.email", email)
     .first()
     .then(async (user) => {
-      console.log(user, "user");
       if (!user) {
         const error = new Error("A user with this email could not be found.");
         error.statusCode = 401;
@@ -102,7 +100,6 @@ router.post("/login", (req, res, next) => {
         "secretWordForPento",
         { expiresIn: "3h" }
       );
-      console.log(token, "token");
       res.status(200).json({ token: token, user: loadedUser });
     })
     .catch((err) => {
@@ -117,14 +114,12 @@ router.post("/login", (req, res, next) => {
 router.get("/isLogged/:token", (req, res, next) => {
   // check header or url parameters or post parameters for token
   const token = req.params.token || req.query.token;
-
-  console.log(token, "viene el token");
   if (!token) {
     return res.status(401).json({ message: "Must pass token" });
   }
   // Check token that was passed by decoding token using secret
   jwt.verify(token, "secretWordForPento", function (err, user) {
-    console.log(err, "error");
+    
     if (err) {
       res.json({
         user: "",
@@ -137,7 +132,6 @@ router.get("/isLogged/:token", (req, res, next) => {
       .where("users.id", user.userId)
       .first()
       .then(async (user) => {
-        console.log(user, "este es el user");
         const { userID, email } = user;
         // user = utils.getCleanUser(user);
         //Note: you can renew token by creating new token(i.e.

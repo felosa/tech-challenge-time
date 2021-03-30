@@ -68,7 +68,6 @@ router.get(
     }
 
     let { userID = null } = req.query;
-    console.log(userID, "user");
     return knex
       .table("sessions")
       .select(
